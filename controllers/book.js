@@ -93,7 +93,7 @@ exports.queryBookContent = function (req, res) {
       let data = results.data
       let _novel = new Novel(data.showapi_res_body.book)
       _novel.save().then(err => {
-        console.log(err)
+        //TODO
       })
       res.json({
         code: 1,
