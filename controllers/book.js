@@ -50,7 +50,7 @@ exports.queryBooksType = function (req, res) {
 //注意这里keyword关键字必须存在，typeid和查询所有小说接口删除
 exports.queryBooks = function (req, res) {
   let query = req.query
-  if (!query.keyword) {
+  if (!query.keyword||query.keyword.length === 0) {
     return res.json({code: -1, msg: '必须提供查询关键字'})
   }
   Novel.find({name: query.keyword}, function (err, results) {
@@ -67,8 +67,8 @@ exports.queryBooks = function (req, res) {
         results.data.showapi_res_body.pagebean.contentlist.forEach(function (v, i) {
           v.name = validator.trim(v.name)
           let newNovel = new Novel(v)
-          newNovel.save().then(function (err) {
-            throw err
+          newNovel.save(function(err) {
+            if(err) throw err
           })
         })
         res.json({
@@ -89,18 +89,34 @@ exports.queryBookContent = function (req, res) {
     if (result && result.chapterList.length !== 0) {
       return res.json({code: 1, msg: '查询成功', ret: result})
     }
+
     request.get(url, { params: params }).then(results => {
       let data = results.data
-      let _novel = new Novel(data.showapi_res_body.book)
-      _novel.save().then(err => {
-        //TODO
-      })
-      res.json({
-        code: 1,
-        msg: '查询成功',
-        ret: data.showapi_res_body.book
-      })
+      if (!result) {
+        let _novel = new Novel(data.showapi_res_body.book)
+        _novel.save().then(err => {
+          //TODO
+        })
+        return res.json({
+          code: 1,
+          msg: '查询成功',
+          ret: data.showapi_res_body.book
+        })
+      }
+
+      if (result && result.chapterList.length === 0) {
+        Novel.findByIdAndUpdate(result._id, {$set: {chapterList: data.showapi_res_body.book.chapterList}}, { new: true }).then(_res => {
+          //do something
+          return res.json(_res)
+        }, function (err) {
+          res.json({
+            code: -1,
+            msg: err.message
+          })
+        })
+      }
     }).catch(err => res.json({code:-1, msg: err.message}))
+
   }).catch(function (err) {
     res.json({
       code: -1,

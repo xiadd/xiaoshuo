@@ -1,5 +1,4 @@
 const crypto = require('crypto')
-const qs = require('querystring')
 
 const config = require('../config')
 

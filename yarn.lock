@@ -287,9 +287,9 @@ configstore@^1.0.0:
     write-file-atomic "^1.1.2"
     xdg-basedir "^2.0.0"
 
-connect-redis@^3.1.0:
-  version "3.1.0"
-  resolved "http://r.cnpmjs.org/connect-redis/download/connect-redis-3.1.0.tgz#25a3c0f20def3e462caa2583eefeb67ca6b10c09"
+connect-redis@^3.2.0:
+  version "3.2.0"
+  resolved "http://registry.npm.taobao.org/connect-redis/download/connect-redis-3.2.0.tgz#2d29ea60c8ae8c2c818a710247fdfed158f43388"
   dependencies:
     debug "^2.2.0"
     redis "^2.1.0"

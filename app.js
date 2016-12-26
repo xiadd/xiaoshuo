@@ -12,7 +12,7 @@ const config = require('./config')
 mongoose.connect(config.database)
 const app = express()
 
-app.use(log4js.connectLogger(logger, { level: log4js.levels.INFO }))
+//app.use(log4js.connectLogger(logger, { level: log4js.levels.ERROR }))
 
 app.use('/api', routes)
 module.exports = app
