@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-exports.Novel = mongoose.model('Novel', {
+exports.Novel = mongoose.model('Novel', new Schema({
   typeName: String,
   id: String,
   author: String,
@@ -11,15 +11,15 @@ exports.Novel = mongoose.model('Novel', {
   newChapter: String,
   size: String, //字数
   chapterList: Array //章节列表 chapterList
-})
+}))
 
-exports.NovelType = mongoose.model('NovelType', {
+exports.NovelType = mongoose.model('NovelType', new Schema({
   id: String,
   name: String
-})
+}))
 
-exports.ChapterContent = mongoose.model('ChapterContent', {
+exports.ChapterContent = mongoose.model('ChapterContent', new Schema({
   bookId: String,
   cid: String,
   txt: String,//小说内容
-})
+}))
