@@ -26,11 +26,26 @@ exports.wxLogin = function (req, res) {
   }).then(result => {
     let data = result.data
     let openid = data.openid
-    req.session.userid = openid
-    console.log(req.session)
     User.findOne({openid: openid}).then(user => {
-      console.log(user);
+      req.session.userid = openid
+      if (!user) {
+        let _user = new User(data)
+        _user.save(function (err, _tmp) {
+          if (err) throw err
+        })
+      }
+      //注意这里是跳转到单页应用上了，带上code进行接口校验是否是微信登录
+      res.redirect('/#/login?' + qs.stringify(req.query))
     }, err => res.json({code: -1, msg: err.message}))
   })
-  res.redirect('/#/login?' + qs.stringify(req.query))
+}
+
+//新增书到书单
+exports.addToList = function (req, res) {
+
+}
+
+//从书单删除
+exports.removeFromList = function (req, res) {
+
 }

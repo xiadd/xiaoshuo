@@ -5,7 +5,7 @@ const queryBookContent = require('./controllers/book').queryBookContent
 const queryBooks = require('./controllers/book').queryBooks
 const queryChapterContent = require('./controllers/book').queryChapterContent
 
-const wxLogin = require('./controllers/login').wxLogin
+const wxLogin = require('./controllers/user').wxLogin
 
 router.get('/types', queryBooksType)
 router.get('/chapters/:bookId', queryBookContent)

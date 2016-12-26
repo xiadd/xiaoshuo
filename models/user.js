@@ -10,5 +10,8 @@ exports.User = mongoose.model('User', new Schema({
   country: String,
   headimgurl: String,
   privilege: Array,
-  unionid: String
+  unionid: String,
+  code: String,
+  book_list: Array,
+  have_read: Array
 }))
