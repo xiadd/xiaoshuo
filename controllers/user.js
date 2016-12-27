@@ -56,7 +56,7 @@ exports.getUserInfo = function (req, res) {
 }
 
 //新增书到书单
-// `/api/:bookId`/add
+// `/api/add/:bookId`
 exports.addToList = function (req, res) {
   let bookId= req.params.bookId
   let userId = req.session.userid
@@ -79,7 +79,8 @@ exports.addToList = function (req, res) {
         if (!isExisted) {
           return res.json({ code: -1, msg: '该小说已经在书单' })
         }
-        User.findOneAndUpdate({ _id: user._id }, { $push: { book_list: result } }).then(_r => res.json({ code: 1, msg: '添加成功' }))
+        user.book_list.push(result)
+        user.save().then(_r => res.json({ code: 1, msg: '添加成功' }))
           .catch(err => res.json({ code: -1, msg: err.message }))
       })
     }
@@ -90,12 +91,29 @@ exports.addToList = function (req, res) {
 }
 
 //从书单删除
-// `/api/:bookId`/remove
+// `/api/remove/:bookId`
 exports.removeFromList = function (req, res) {
-
+  let bookId = req.params.bookId
+  let userId = req.session.userid
+  User.findOne({ openid: userId }).then(function (user) {
+    let bookList = user.book_list
+    let _idx = bookList.filter(v => v.id === bookId)
+    if (_idx.length === 0) {
+      return res.status(403).json({ code: -1, msg: '不存在该书' })
+    }
+    user.book_list.splice(bookList.indexOf(_idx[0]), 1)
+    user.save().then(function (_tmp) {
+      res.json({ code: 1, msg: '删除成功' })
+    }).catch(err => res.json({code: -1, msg: err.message}))
+  })
 }
 
 //开始阅读
 exports.read = function (req, res) {
+  
+}
+
+//已经读到的章节
+exports.inReading = function (req, res) {
   
 }
