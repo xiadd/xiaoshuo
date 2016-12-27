@@ -36,6 +36,7 @@ exports.wxLogin = function (req, res) {
           //do sth with _tmp
         })
       }
+      console.log(data)
       //注意这里是跳转到单页应用上了，带上code进行接口校验是否是微信登录
       res.redirect('/#/login?' + qs.stringify(req.query))
     }, err => res.json({code: -1, msg: err.message}))
@@ -62,7 +63,7 @@ exports.addToList = function (req, res) {
   let userId = req.session.userid
   Novel.aggregate(
     { $match: { id: bookId } },
-    { $project: { _id: 0, id: 1, name: 1, author: 1, updateTime: 1, newChapter: 1, size: 1 } }
+    { $project: { _id: 0, id: 1, name: 1, author: 1, updateTime: 1, newChapter: 1, size: 1, typeName: 1 } }
   ).then(function (result) {
     if (result.length !== 0) {
       return result[0]
@@ -75,7 +76,6 @@ exports.addToList = function (req, res) {
     if (result) {
       return User.findOne({openid: userId}).then(function (user) {
         let isExisted = user.book_list.every(v => v.id !== result.id)
-        console.log(isExisted)
         if (!isExisted) {
           return res.json({ code: -1, msg: '该小说已经在书单' })
         }
