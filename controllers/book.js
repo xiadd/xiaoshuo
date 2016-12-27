@@ -22,7 +22,7 @@ exports.queryBooksType = function (req, res) {
   let query = req.query //空值
   let params = getParams(query)
   let url = config['小说种类查询']
-
+  console.log(req.session.userid)
   NovelType.find({}, function (err, types){
     if (err) {
       return res.json({

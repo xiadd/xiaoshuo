@@ -10,7 +10,8 @@ exports.Novel = mongoose.model('Novel', new Schema({
   type: String,
   newChapter: String,
   size: String, //字数
-  chapterList: Array //章节列表 chapterList
+  chapterList: Array, //章节列表 chapterList
+  in_list: { type: Boolean, default: false }
 }))
 
 exports.NovelType = mongoose.model('NovelType', new Schema({
