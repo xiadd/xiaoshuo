@@ -50,6 +50,17 @@ exports.queryBooksType = function (req, res) {
 //注意这里keyword关键字必须存在，typeid和查询所有小说接口删除
 exports.queryBooks = function (req, res) {
   let query = req.query
+  if (query.bookId) {
+    Novel.findOne({id: query.bookId}).then(book => {
+      if (!book) return res.status(400).json({code: -1, msg: '书籍不存在'})
+      res.json({
+        code: 1,
+        msg: '查询成功',
+        ret: [ book ]
+      })
+    })
+    return
+  }
   if (!query.keyword||query.keyword.length === 0) {
     return res.json({code: -1, msg: '必须提供查询关键字'})
   }

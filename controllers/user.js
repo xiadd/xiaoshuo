@@ -36,7 +36,6 @@ exports.wxLogin = function (req, res) {
           //do sth with _tmp
         })
       }
-      console.log(data)
       //注意这里是跳转到单页应用上了，带上code进行接口校验是否是微信登录
       res.redirect('/#/login?' + qs.stringify(req.query))
     }, err => res.json({code: -1, msg: err.message}))
