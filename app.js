@@ -24,7 +24,5 @@ app.use(session({
 //app.use(log4js.connectLogger(logger, { level: log4js.levels.ERROR }))
 
 app.use('/api', routes)
-app.get('/', function (req, res) {
-  res.send('xiadd')
-})
+app.use('/', express.static('public'))
 module.exports = app
